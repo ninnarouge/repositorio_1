@@ -1,1 +1,136 @@
 
+#Función Menú Principal:
+def f_menu():
+
+    print("********************************")
+    print("       Registro de Sueldos      ")
+    print("********************************")
+    print("1.-Registrar Trabajadores       ")
+    print("2.-Listado de trabajadores      ")
+    print("3.-Imprimir planilla de sueldos ")
+    print("4.-Salir                        ")
+    print("********************************")
+
+trabajadores =[]
+cargos= ["CEO", "Desarrollador", "Analista de Datos"]
+
+#Funcion Registro (Opción 1)
+def f_registro_trabajadores():
+
+    trabajador={}
+
+    print("********************************")
+    print("     Registro de Trabajador     ")
+    print("********************************")
+    #Datos de entrada:
+
+    #Trabajador:
+    trabajador['Nombre']=input(" Ingrese Nombre y Apellido del Trabajador: ")
+    #Validación de campos vacíos:
+    if trabajador['Trabajador']=="" or trabajador['Trabajador']==" ":
+         return print("ERROR")
+    
+    #Cargo:
+    print(" Ingrese el cargo su trabajador: ")
+    print("Los cargos disponibles son: ", cargos)
+    trabajador['Cargo']= input()
+    #Validación de campos vacíos:
+    if trabajador["Cargo"]=="" or trabajador["Trabajador"]==" ":
+            return print("ERROR:")
+    
+    #Sueldo Bruto:
+    trabajador['Sueldo Bruto']= input(int("Ingrese Sueldo Bruto: "))
+    #Validación de campos vacíos:
+    if trabajador['Sueldo bruto']==0 or trabajador["Sueldo bruto"]=="" or trabajador["Sueldo bruto"]<0:
+         return print("ERROR")
+
+    #Calculos Sueldo Liquido:
+    trabajador['Desc. salud']=trabajador['Sueldo bruto']*0.07
+    trabajador['Desc. AFP']=trabajador['Sueldo bruto']*0.12
+    trabajador['Liquido']=trabajador['Sueldo bruto']*0.81
+
+#Listar trabajadores (op 2):
+def l_trabajadores():
+    for persona in trabajadores:
+        trabajador = persona['Trabajador']
+	    cargo = persona['Cargo']
+	    sueldo_bruto = persona['Sueldo bruto']
+        descuento_salud = persona['Desc. salud']
+		descuento_afp = persona['Desc. AFP']
+		sueldo_liquido = persona['Liquido']
+        # Agregar función print con estas variables:
+        print("================================")
+		print("Nombre del trabajador\t: ", trabajador)
+		print("Cargo del trabajador\t: ", cargo)
+		print("Sueldo bruto\t\t: ", sueldo_bruto)
+		print("Desc. salud\t\t: ", descuento_salud)
+		print("Desc. AFP\t\t: ", descuento_afp)
+		print("Sueldo líquido\t\t: ", sueldo_liquido)
+
+        print(' ')#Print vacío para completar un salto de línea entre cada trabajador.
+
+#Imprimir Planilla de sueldos (op 3):
+
+def imprimir_plantilla():
+    print("Seleccione la opción de impresión:")
+    print("1. Imprimir todos los trabajadores")
+    print("2. Imprimir por cargo específico")
+    op = int(input("Ingrese su opción: "))
+
+    while True: 
+        if op == 1:
+            plantilla = "planilla_todos.txt"
+            with open(plantilla, "w") as archivo:
+                for trabajador in trabajadores:
+                    archivo.write(f"Nombre: {trabajador['Nombre']} , Cargo: {trabajador['cargo']}, "
+                           f"Sueldo Bruto: {trabajador['sueldo_bruto']}, Desc. Salud: {trabajador['desc_salud']}, "
+                           f"Desc. AFP: {trabajador['desc_afp']}, Líquido a Pagar: {trabajador['liquidacion']}\n")
+            print(f"Planilla de todos los trabajadores guardada en {plantilla}.\n")
+
+
+        if op== 2:
+            cargo= input("Ingrese cargo es cuál desea imprimir: ")
+        if cargo != cargos:
+            print("ingrese cargo válido")
+            return
+        plantilla = f"planilla_{cargo}.txt"
+        with open(plantilla, "w") as archivo:
+            for trabajador in trabajadores:
+                if trabajador['cargo'] == cargo:
+                    archivo.write(f"Nombre: {trabajador['nombre']}, Cargo: {trabajador['cargo']}, "
+                               f"Sueldo Bruto: {trabajador['sueldo_bruto']}, Desc. Salud: {trabajador['desc_salud']}, "
+                               f"Desc. AFP: {trabajador['desc_afp']}, Líquido a Pagar: {trabajador['liquidacion']}\n")
+        print(f"Planilla de trabajadores con cargo {cargo} guardada en {plantilla}.\n")
+        else:
+        print("Opción no válida.")
+
+#Menú Principal:        
+def principal():
+    sw = 1
+    while sw == 1:
+        menu()
+        op = int(input("Ingrese su opción [1/2/3/4]: "))
+        if op == 1:
+            try:
+                trabajadores.append(f_registro_trabajadores())	
+                print("Trabajador añadido con éxito.")
+            except (ValueError,TypeError):
+                 print("Ingreso no válido")		
+        elif op == 2:
+            l_trabajadores(trabajadores)
+            print("")
+        elif op == 3:
+            imprimir_plantilla(trabajadores)
+            print("Datos guardados exitosamente en detalle_sueldos.txt")
+        elif op == 4:
+            print("Saliendo del programa") 
+           
+            sw=0
+
+		
+        
+	    
+
+
+
+
